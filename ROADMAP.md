@@ -73,39 +73,43 @@ to replace the existing one in `net/url`, as the current struct definition is
 too HTTP specific and does not always parse other kinds of URIs correctly. To
 create protocols in terms of URIs, `net2` will provide the following:
 
-- *codecs*, for taking structured data and allowing streamed reads and writes of
+- *codecs* for taking structured data and allowing streamed reads and writes of
   that data in smaller units, typically bytes. Codecs should *compose*, so that
-  one codec may define how to, for example, turn a request data structure into a
+  one codec may define how to (for example) turn a request data structure into a
   stream of smaller "frames" while relying on some other codec to define how to
   turn a frame into a byte stream. Codecs will not assume they are being used to
   read and write with ports.
-- *messengers*, for taking codecs and a transport and providing a way to read
-  and write "messages" (structured data) to the transport with the codecs. Reads
-  and writes should be buffered at the message level, with concurrent reads and
-  writes allowed. Messengers are for arbitrary two-way communication instead of
-  client-server communication, allowing listening agents to send messages
-  unprompted and clients to listen for messages before sending any messages
-  themselves.
+- *messengers* for taking codecs and a transport and providing a way to read
+  and write "messages" (structured data) to the transport with the codecs.
+  Concurrent reads and writes of messages should be allowed without interleaving
+  reads and writes of their encoded pieces. Messengers are for arbitrary two-way
+  communication instead of client-server communication, allowing listening
+  agents to send messages unprompted and clients to listen for messages before
+  sending any messages themselves. Messenger combinators should allow
+  implementing transport layer patterns like stream multiplexing and buffered
+  reads and writes on top of existing messengers. Message peeking (reading
+  without consuming) should be possible.
 - *clients* and *servers*, which build atop messengers and a named protocol
   scheme to provide request-response handling to URLs in terms of ordinary
   Racket functions. Common message transport patterns like request pipelining
-  and stream multiplexing should be implemented generically at this level.
-  Reusable proxy logic also belongs here. Note the use of the term "proxy"
-  instead of "middleware" - the former implies three agents with different
-  authorities, while the latter implies intercepting code run in either the
-  client or server agent. Multiple simple agents are preferred to a single
-  complex agents, as they provide better encapsulation and isolation when
+  and thread-isolated response handling should be implemented generically at
+  this level. Reusable proxy logic also belongs here. Note the use of the term
+  "proxy" instead of "middleware" - the former implies three agents with
+  different authorities, while the latter implies intercepting code run in
+  either the client or server agent. Multiple simple agents are preferred to a
+  single complex agent, as they provide better encapsulation and isolation when
   dealing with distributed state. The use of Racket Transport Addresses should
-  allow a single process to many in-memory proxies, avoiding the deployment
+  allow a single process to run many in-memory proxies, avoiding the deployment
   complexity associated with trying to connect to proxies over standard IP
   networks.
 
 ## Tertiary Directive
 
 With implementations of the above abstract networking concepts, the `net2`
-package will provide implementations of some protocols, most importantly HTTP2.
-Additionally, existing implementations of useful protocols may be wrapped or
-ported to work with transports. Protocols to implement include:
+package will provide implementations of a few high-level protocols, including
+HTTP2, JSON-RPC, and STOMP. Additionally, existing implementations of useful
+protocols may be wrapped or ported to work with transports. Protocols to
+implement include:
 
 - HTTP/1.0, HTTP/1.1, and HTTP2
 - JSON-RPC
