@@ -1,4 +1,4 @@
-# Roadmap for the `net2` Project
+# Roadmap For the `net2` Project
 
 This document roughly describes the goals and non-goals of the `net2` package.
 In general, `net2` aims to achieve three things:
