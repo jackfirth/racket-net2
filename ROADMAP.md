@@ -163,11 +163,11 @@ Not all protocols in the existing `net` collection will be supported, although
 any protocols implemented in terms of input ports and output ports representing
 TCP connections should be easy to implement atop `net2`.
 
-Resource management strategies including connection pooling will explicitly
-*not* be implemented in `net2`. Instead, `net2` will rely on the `disposable`
-package to provide generic resource management patterns. Some interfaces in
-`net2` may rely on disposables, effectively making `disposable` an API-level
-dependency of `net2`.
+Resource management strategies including connection pooling will be handled by
+`net2` using the `disposable` package. Some APIs in `net2` may explicitly use
+disposables in their contracts. However, any resource management logic that is
+not specific to network connections should be implemented in and provided by
+`disposable`, not `net2`.
 
 Error handling, supervision, and timeout logic will *not* be implemented in
 `net2`. Other packages are expected to supply generic logic that can be composed
