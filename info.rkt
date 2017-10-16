@@ -11,4 +11,4 @@
     "scribble-lib"))
 
 (define scribblings
-  '(("scribblings/main.scrbl" () (library) "net2")))
+  '(("scribblings/main.scrbl" (multi-page) (library) "net2")))
