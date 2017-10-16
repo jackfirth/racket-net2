@@ -2,6 +2,7 @@
 @(require "base.rkt")
 
 @title{Networking Data Structures}
+@defmodule[net2/data]
 
 The @racketmodname[net2] library defines several data structures related to
 networking, as well as validating conversions to and from strings. Many of these
