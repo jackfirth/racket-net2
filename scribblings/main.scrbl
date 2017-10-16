@@ -26,12 +26,13 @@ across several modules:
  @item{@racketmodname[net2/data] --- Spec-compliant definitions of various kinds
   of networking data, including IP addresses, DNS names, and URIs.}
  @item{@racketmodname[net2/transport] --- Defines @transport-tech{transports},
-  which abstract over sending and receiving bytes reliably between two parties
-  over a network.}
+  which abstract over sending and receiving bytes reliably between two networked
+  parties.}
  @item{@racketmodname[net2/connector] --- Defines @connector-tech{connectors}
-  for opening new transports with other parties.}
+  for opening new @transport-tech{transports} with other parties.}
  @item{@racketmodname[net2/listener] --- Defines @listener-tech{listeners} for
-  accepting requests from other parties to open new transports.}
+  accepting requests from other parties to open new @transport-tech{
+   transports}.}
  @item{@racketmodname[net2/system] --- Access to built-in networking provided by
   the operating system, including TCP connections, UNIX domain sockets, and TLS
   encrypted communication with OpenSSL.}]
