@@ -2,6 +2,10 @@
 
 @(require "base.rkt")
 
+@(define github-url "https://github.com/jackfirth/racket-net2")
+@(define license-url
+   "https://github.com/jackfirth/racket-net2/blob/master/LICENSE")
+
 @title{Net2: Evolved Networking Libraries}
 @defmodule[net2 #:packages ("net2")]
 @author[@author+email["Jack Firth" "jackhfirth@gmail.com"]]
@@ -30,6 +34,9 @@ functionality is defined in several modules:
  @item{@racketmodname[net2/system] --- Access to built-in networking provided by
   the operating system, including TCP connections, UNIX domain sockets, and TLS
   encrypted communication with OpenSSL.}]
+
+Source code for this library is avaible @hyperlink[github-url]{on Github} and is
+provided under the terms of the @hyperlink[license-url]{Apache License 2.0}.
 
 @local-table-of-contents[]
 
