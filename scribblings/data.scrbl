@@ -42,6 +42,10 @@ classic example of such a namespace.
  address isn't a name for an Internet host: it's the @emph{definition} of a
  host.
 
+ Registered names are used in URIs and @authority-tech{authorities} to avoid
+ name collisions for global identifiers. Frequently the registry for a name
+ will allow extension and delegation with a @fed-ns-tech{federated namespace}.
+
  All registered names SHOULD obey the syntax rules for well-formed DNS
  addresses. Additionally, names that depend on the resolver's context (such as
  the "localhost" DNS address) SHOULD be distinguishable from globally-scoped
@@ -50,18 +54,20 @@ classic example of such a namespace.
  Special Use Domain Names of DNS specified in RFC 6761, ideally with reasonably
  equivalent semantics.
 
- The @racketmodname[net2] library currently defines the @racket[dns] and
- @racket[unix-socket-name] registered name types.}
+ Currently, the only subtypes of @racket[reg-name] are the @racket[dns] and
+ @racket[unix-socket-name] types.}
 
 @section{DNS Names}
 
 @defstruct*[(dns reg-name) ([labels (listof dns-label?)])
             #:transparent]{
- A Domain Name System name consisting of @racket[labels] as defined by RFC 952,
- RFC 1034, RFC 1035, and RFC 1123 Section 2. Note that in addition to the length
- restrictions of @racket[dns-label?], the total length of a DNS name must not
- exceed 255 bytes @emph{including one byte for a length header between labels.}
- If the last element of @racket[labels] is @racket[dns-root] the name is @emph{
+ A Domain Name System @reg-name-tech{registered name} consisting of
+ @racket[labels] as defined by RFC 952, RFC 1034, RFC 1035, and RFC 1123 Section
+ 2. In addition to the length restrictions of @racket[dns-label?], the total
+ length of a DNS name must not exceed 255 bytes @emph{including one byte for a
+  length header between labels.}
+
+ If the last element of @racket[labels] is @racket[dns-root], the name is @emph{
   fully qualified}. Otherwise, the domain name is @emph{partially qualified} and
  is typically resolved relative to either the root domain or relative to a
  domain in a locally configured search list.}
@@ -69,10 +75,15 @@ classic example of such a namespace.
 @defproc[(dns-label? [v any/c]) boolean?]{
  Implies @racket[(bytes? v)]. Returns @racket[#t] when @racket[v] is a valid
  DNS label. Labels may consist of zero to 63 bytes with no restrictions on what
- bytes are allowed. However, according to the RFCs mentioned in @racket[dns]
- labels that are equal when compared as case-insensitive ASCII are considered
- identical. When rendered, labels are typically displayed as lowercase ASCII
+ bytes are allowed. However, according to the RFCs mentioned in @racket[dns],
+ labels that are equal when compared case-insensitively as Latin-1 strings are
+ considered identical. When rendered, labels are typically displayed as
  strings.}
+
+@defthing[dns-root dns-label? #""]{
+ The root DNS nameserver, represented by an empty label. See @racket[dns] for a
+ discussion on the root nameserver and the difference between fully and
+ partially qualified names.}
 
 @section{UNIX Socket Names}
 
@@ -102,6 +113,28 @@ classic example of such a namespace.
    @racket[path], to avoid representing the same socket with multiple different
    names. Additionally, following symlinks prior to path construction helps
    avoid processes unintentionally interpreting the same path differently.}]}
+
+@section{Authorities}
+
+@defstruct*[authority ([host (or/c ip6? ip4? reg-name?)] [port port-number?])
+            #:transparent]{
+ Structure type of an @authority-tech[#:definition? #t]{authority}, as defined
+ in RFC 3986. An authority is a hierarchical representation of some sort of
+ naming authority, which establishes who has the right to @emph{respond
+  authoritatively} for requests to that authority's namespace. For example, an
+ authority composed of an IP address and a port number establishes whatever
+ program is listening for connections to that port on the machine reachable at
+ that IP address as a naming authority.
+
+ Authorities are a component of the generic syntax of URIs, and are used in URIs
+ to define how to take a URI and establish who to talk to for authoritative
+ information about the resource identified by the URI. Note that URIs include a
+ scheme component that establishes what protocol to use when communicating with
+ an authority.
+
+ Currently, including identifying user info in authorites (see RFC 3986 Section
+ 3.2.1) is not supported due to historically widespread security problems and a
+ lack of immediate use cases.}
 
 @section{URIs}
 
