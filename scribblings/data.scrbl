@@ -10,11 +10,11 @@ data types are specified by Request for Comments (RFC) documents published by
 the Internet Engineering Task Force (IETF); references to appropriate
 specifications are included in the documentation of each data structure.
 
-To understand these types more deeply, understand that many reside in a
-centrally managed globally unique namespace defined and operated by the Internet
-Assigned Numbers Authority (IANA). The IANA may delegate assignment of
-subsections of a namespace to other organizations, which may delegate them
-further. This chained delegation of namespace responsibility defines a
+The Internet Assigned Numbers Authority (IANA) is another relevant organization
+that defines and operates centrally managed globally unique namespaces used for
+a wide variety of purposes. The IANA may delegate assignment of names in
+namespace subtrees to other organizations, which may delegate further to other
+entities. This chained delegation of namespace responsibility defines a
 @fed-ns-tech[#:definition? #t]{federated namespace}. DNS names serve as a
 classic example of such a namespace.
 
@@ -46,13 +46,12 @@ classic example of such a namespace.
  name collisions for global identifiers. Frequently the registry for a name
  will allow extension and delegation with a @fed-ns-tech{federated namespace}.
 
- All registered names SHOULD obey the syntax rules for well-formed DNS
- addresses. Additionally, names that depend on the resolver's context (such as
- the "localhost" DNS address) SHOULD be distinguishable from globally-scoped
- names without requiring clients perform a @lookup-tech{name lookup}. Designers
- of new globally-scoped registered name systems are encouraged to reuse the
- Special Use Domain Names of DNS specified in RFC 6761, ideally with reasonably
- equivalent semantics.
+ All registered names SHOULD obey the syntax rules for well-formed DNS names.
+ Additionally, names that depend on the resolver's context (such as @racket[
+ dns-localhost]) SHOULD be distinguishable from globally-scoped names without
+ requiring clients perform a @lookup-tech{name lookup}. Designers of new
+ globally-scoped registered name systems are encouraged to reuse the Special Use
+ Domain Names specified in RFC 6761 with equivalent semantics.
 
  Currently, the only subtypes of @racket[reg-name] are the @racket[dns] and
  @racket[unix-socket-name] types.}
@@ -80,10 +79,23 @@ classic example of such a namespace.
  considered identical. When rendered, labels are typically displayed as
  strings.}
 
-@defthing[dns-root dns-label? #""]{
+@defthing[dns-root-label dns-label? #:value #""]{
  The root DNS nameserver, represented by an empty label. See @racket[dns] for a
  discussion on the root nameserver and the difference between fully and
  partially qualified names.}
+
+@deftogether[
+ (@defthing[example. dns?]
+   @defthing[example.com. dns?]
+   @defthing[example.net. dns?]
+   @defthing[example.org. dns?]
+   @defthing[invalid. dns?]
+   @defthing[local. dns?]
+   @defthing[localhost. dns?]
+   @defthing[test. dns?])]{
+ Constants for Special Use Domain Names as defined in RFC 6761 and registered in the
+ @hyperlink["https://www.iana.org/assignments/special-use-domain-names/special-use-domain-names.xhtml"]{
+  IANA Special Use Domain Names Registry}.}
 
 @section{UNIX Socket Names}
 
@@ -113,6 +125,9 @@ classic example of such a namespace.
    @racket[path], to avoid representing the same socket with multiple different
    names. Additionally, following symlinks prior to path construction helps
    avoid processes unintentionally interpreting the same path differently.}]}
+
+@defproc[(unix-socket-name->string [sock-name unix-socket-name?]) string?]{
+ TODO: document this}
 
 @section{Authorities}
 

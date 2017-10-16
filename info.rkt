@@ -8,7 +8,9 @@
     "base"))
 
 (define build-deps
-  '("disposable"
+  '("unix-socket-doc"
+    "unix-socket-lib"
+    "disposable"
     "racket-doc"
     "scribble-lib"))
 
