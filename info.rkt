@@ -4,10 +4,12 @@
 (define collection "net2")
 
 (define deps
-  '("base"))
+  '("reprovide-lang"
+    "base"))
 
 (define build-deps
-  '("racket-doc"
+  '("disposable"
+    "racket-doc"
     "scribble-lib"))
 
 (define scribblings
