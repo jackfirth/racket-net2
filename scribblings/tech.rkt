@@ -22,4 +22,7 @@
 (define-tech-helpers
   disposable-tech "disposable" disposable/scribblings/main
   port-tech "port" scribblings/guide/guide
-  custom-port-tech "custom ports" scribblings/reference/reference)
+  input-port-tech "input port" scribblings/reference/reference
+  output-port-tech "output port" scribblings/reference/reference
+  custom-port-tech "custom ports" scribblings/reference/reference
+  custodian-tech "custodian" scribblings/reference/reference)
