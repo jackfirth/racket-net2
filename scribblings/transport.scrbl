@@ -15,8 +15,8 @@ naming the party "on the other end" of the connection. Transports can be
 directly constructed from ports with @racket[transport].
 
 Transports do not have a notion of clients and servers --- once established, a
-transport can be used for arbitrary bidirectional communication. For a high-
-level interface to client-server transport creation, see @connector-tech{
+transport can be used for arbitrary bidirectional communication. For a
+high-level interface to client-server transport creation, see @connector-tech{
  connectors} and @listener-tech{listeners}. Also see the
 @racketmodname[net2/system] module for access to operating system transports
 such as TCP connections.
