@@ -25,4 +25,6 @@
   input-port-tech "input port" scribblings/reference/reference
   output-port-tech "output port" scribblings/reference/reference
   custom-port-tech "custom ports" scribblings/reference/reference
-  custodian-tech "custodian" scribblings/reference/reference)
+  custodian-tech "custodian" scribblings/reference/reference
+  current-cust-tech "current custodian" scribblings/reference/reference
+  thread-tech "threads" scribblings/guide/guide)
