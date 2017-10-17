@@ -64,10 +64,11 @@ such as TCP connections.
 
  To properly implement connection cleanup actions in transports, many interfaces
  in @racketmodname[net2] require that cleanup logic is encapsulated in a
- @disposable-tech{disposable}. This allows declaratively specifying how and when
- connection termination logic will execute, and reduces the complexity involved
- in adding timeout and early termination logic. See @racket[tcp-connect] for an
- example of a transport with robust and graceful connection termination.}
+ @disposable-tech{disposable} from the @racketmodname[disposable] library. This
+ allows declaratively specifying how and when connection termination logic will
+ execute, and reduces the complexity involved in adding timeout and early
+ termination logic. See @racket[tcp-connect] for an example of a transport with
+ robust and graceful connection termination.}
 
 @deftogether[
  (@defproc[(transport-in [trans transport?]) input-port?]
