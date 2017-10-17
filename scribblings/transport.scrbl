@@ -21,6 +21,8 @@ high-level interface to client-server transport creation, see @connector-tech{
 @racketmodname[net2/system] module for access to operating system transports
 such as TCP connections.
 
+@section{Transport Primitives}
+
 @defproc[(transport? [v any/c]) boolean?]{
  Returns @racket[#t] if @racket[v] is a @transport-tech{transport}.}
 
