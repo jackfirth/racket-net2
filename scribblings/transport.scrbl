@@ -62,12 +62,12 @@ such as TCP connections.
  @racketmodname[ffi/unsafe/custodian], because custodian shutdowns are performed
  unsafely and expected to always succeed with very little (if any) IO.
 
- To properly implement connection cleanup actions in transports, connection
- cleanup logic must be encapsulated in a @disposable-tech{disposable}. This
- allows declaratively specifying how and when connection termination logic will
- execute, and reduces the complexity involved in adding timeout and early
- termination logic. See @racket[tcp-connect] for an example of a transport with
- robust and graceful connection termination.}
+ To properly implement connection cleanup actions in transports, many interfaces
+ in @racketmodname[net2] library require that cleanup logic is encapsulated in a
+ @disposable-tech{disposable}. This allows declaratively specifying how and when
+ connection termination logic will execute, and reduces the complexity involved
+ in adding timeout and early termination logic. See @racket[tcp-connect] for an
+ example of a transport with robust and graceful connection termination.}
 
 @deftogether[
  (@defproc[(transport-in [trans transport?]) input-port?]
