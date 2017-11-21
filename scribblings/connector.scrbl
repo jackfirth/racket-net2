@@ -28,16 +28,6 @@ transport used by another thread. Connector transport reuse and management is
 primarily defined in terms of @disposable-tech{disposables} from the
 @racketmodname[disposable] library.
 
-Note that many kinds of transports (including TCP connections) are expensive to
-create, maintain, and terminate. It is crucial to minimize the number of open
-connections between two parties. However, transports are not thread safe in the
-sense that two threads attempting to serialize and deserialize complex messages
-directly to the same transport will interleave their bytes on the wire, leading
-to mangled and uninterpretable messages. To prevent threads from concurrently
-writing messages while simultaneously limiting open connections, use a dedicated
-thread for serializing and deserializing messages from a message buffer which
-other threads read and write messages to atomically, instead of providing all
-threads with direct access to the underlying transport.
 
 @section{Connector Primitives}
 

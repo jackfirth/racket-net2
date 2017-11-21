@@ -21,6 +21,15 @@ high-level interface to client-server transport creation, see @connector-tech{
 @racketmodname[net2/system] module for access to operating system transports
 such as TCP connections.
 
+Transports are not thread safe in the sense that two threads attempting to
+serialize and deserialize complex messages directly to the same transport will
+interleave their bytes on the wire, leading to mangled and uninterpretable
+messages. To prevent threads from concurrently writing messages without opening
+multiple transports between the same authorities, use a dedicated thread for
+serializing and deserializing messages from a message buffer which other threads
+read and write messages to atomically instead of sharing the connection
+directly.
+
 @section{Transport Primitives}
 
 @defproc[(transport? [v any/c]) boolean?]{
