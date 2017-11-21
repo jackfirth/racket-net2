@@ -28,6 +28,15 @@ transport used by another thread. Connector transport reuse and management is
 primarily defined in terms of @disposable-tech{disposables} from the
 @racketmodname[disposable] library.
 
+Note that many kinds of @transport-tech{transports} (including TCP connections)
+are expensive to create, maintain, and terminate. It is crucial to minimize the
+number of open connections between two parties, but sometimes higher-level
+protocols need to control when connections are closed or whether a fresh,
+previously unused connection is required. For this purpose, @connector-tech{
+ connectors} are defined in terms of @transport-pool-tech[#:definition? #t]{
+ transport pools}. A transport pool is a combination of a @disposable-pool-tech{
+ disposable pool} and a @transient-tech{transient} that allows reusing
+transports, and is defined by the @racket[transport-pool/c] contract.
 
 @section{Connector Primitives}
 
@@ -59,6 +68,27 @@ primarily defined in terms of @disposable-tech{disposables} from the
  graceful close logic, with forceful termination of the transport left to
  @custodian-tech{custodian} shutdowns and finalizers. See @secref[
  "transport-cleanup"] for a more in-depth discussion.}
+
+@defthing[transport-pool/c contract?
+          #:value (disposable/c (disposable/c (transient/c transport?)))]{
+ A contract that recognizes @transport-pool-tech{transport pools} as used by
+ @connector-tech{connectors}. A transport pool is a collection of opened
+ @transport-tech{transports} to a particular @authority-tech{authority}, where
+ clients may use the @transient-tech{transient value} protocol to do any of the
+ following:
+
+ @itemlist[
+ @item{Get any open transport --- creating a new one if it doesn't exist --- and
+   return it to the pool after use.}
+ @item{Open a @emph{fresh} transport that's never been used and return it to the
+   pool after use.}
+ @item{Explicitly close a transport ensuring that it won't be used again.}]
+
+ Most clients will simply request any available transport and return it after
+ use, but some protocols require clients explicitly close connections after
+ specific interactions. The use of transient values offers clients a mechanism
+ for opting-in to this complexity, even when other clients of the same pool
+ choose the simpler interface.}
 
 @defproc[(connect! [conn connector?] [dest authority?]) transport?]{
  Connects to @racket[dest] using @racket[conn] and returns a @transport-tech{
