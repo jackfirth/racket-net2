@@ -78,7 +78,7 @@ transports, and is defined by the @racket[transport-pool/c] contract.
  following:
 
  @itemlist[
- @item{Get any open transport --- creating a new one if it doesn't exist --- and
+ @item{Get any open transport --- creating a new one if one doesn't exist --- and
    return it to the pool after use.}
  @item{Open a @emph{fresh} transport that's never been used and return it to the
    pool after use.}
