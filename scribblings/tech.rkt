@@ -16,11 +16,14 @@
 
 (define-tech-helpers
   transport-tech "transport"
+  transport-pool-tech "transport pool"
   connector-tech "connector"
   listener-tech "listener")
 
 (define-tech-helpers
   disposable-tech "disposable" disposable/scribblings/main
+  disposable-pool-tech "disposable pool" disposable/scribblings/main
+  transient-tech "transient" disposable/scribblings/main
   port-tech "port" scribblings/guide/guide
   input-port-tech "input port" scribblings/reference/reference
   output-port-tech "output port" scribblings/reference/reference
