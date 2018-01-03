@@ -1,0 +1,31 @@
+language: c
+sudo: false
+
+branches:
+  only:
+    - master
+
+env:
+  global:
+    - RACKET_DIR=~/racket
+  matrix:
+    - RACKET_VERSION=6.10
+    - RACKET_VRESION=6.11
+    - RACKET_VERSION=HEAD
+
+matrix:
+  allow_failures:
+    - env: RACKET_VERSION=HEAD
+
+before_install:
+  - git clone https://github.com/greghendershott/travis-racket.git ../travis-racket
+  - cat ../travis-racket/install-racket.sh | bash
+  - export PATH="${RACKET_DIR}/bin:${PATH}"
+  - raco pkg install --auto cover cover-codecov
+
+install:
+  - raco pkg install --auto --name net2 $TRAVIS_BUILD_DIR
+
+script:
+  - raco test -p net2
+  - raco cover -f codecov -p net2
